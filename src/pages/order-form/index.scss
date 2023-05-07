@@ -1,0 +1,118 @@
+.order-button{
+    z-index: 100;
+    font-size: 28px;
+    text-align: center;
+    line-height: 82px;
+    color:#ffffff;
+    background-color: #EB4F1E;
+    border-radius: 41px;
+    width: 222px;
+    height: 82px;
+    position: fixed;
+    right: 20px;
+    bottom: 30px;
+}
+
+.order-title{
+    width: 100%;
+    margin-bottom: 30px;
+    height: 104px;
+}
+
+.title-text{
+    line-height: 104px;
+    font-size: 36px;
+}
+
+.order-form{
+    width: 100%;
+    font-size: 28px;
+}
+
+.form-item{
+    box-sizing: border-box;
+    padding-bottom: 36px;
+    line-height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    Text{
+        font-weight: bold;
+    }
+}
+
+.order-box{
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+Input{   
+    border: 2px solid #D9D9D94D;
+    font-size: 24px;
+    width:277px;
+    height: 50px;
+    line-height: 50px;
+    padding-left: 14px;
+    border-radius: 10px;
+    position: absolute;
+    right: 20px;
+}
+
+.location{
+    position:absolute;
+    right: 20px;
+}
+
+.order-price{
+    position: relative;
+    width: 100%;
+    font-size: 36px;
+    margin-top: 40px;
+}
+.good-line{
+    line-height: 80px;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 3.5px solid #B3B3B3;
+}
+
+.send-line{
+    line-height: 80px;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.good-line-item{
+    position: relative;
+    left: 20px;
+}
+
+.send-line-item{
+    position: relative;
+    left: 20px;
+}
+
+.good-price{
+    position: absolute;
+    right: 20px;
+}
+
+.send-price{
+    position: absolute;
+    right: 20px;
+}
+
+.Price{
+    margin-top: 32px;
+    font-size: 40px;
+    text-align: center;
+}
+
+
+
+
