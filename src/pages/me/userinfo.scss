@@ -1,0 +1,53 @@
+.bigFrame {
+    /* Auto layout */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 60rpx;
+
+    .userinfo {
+        /* 用户信息 */
+
+
+        width: 800rpx;
+        height: 400rpx;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40rpx;
+    }
+
+    .headportrait {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        border-radius: 50%;
+        background-color: rgb(16, 126, 126);
+        gap: 20rpx;
+        width: 180rpx;
+        height: 180rpx;
+        box-sizing: border-box;
+    }
+
+    .item {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        gap: 68rpx;
+        align-items: center;
+
+        .label {
+            font-size: 32rpx;
+        }
+
+        .valueBody {
+            width: 50%;
+            background-color: rgba(217, 217, 217, 0.3);
+            height: 80rpx;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20rpx;
+        }
+    }
+}

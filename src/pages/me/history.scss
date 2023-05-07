@@ -1,0 +1,117 @@
+.outterFrame {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20rpx;
+    width: 100%;
+    height: fit-content;
+
+    .innerFrame {
+        padding: 6rpx;
+        border-width: 4rpx;
+        border-style: solid;
+        border-color: #D9D9D9;
+        border-radius: 20rpx;
+
+        .status {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
+            margin-left: auto;
+            color: #FF6B00;
+        }
+
+        .particular {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+
+            .commodity {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                width: 100rpx;
+                height: 100rpx;
+            }
+
+            .textInfo {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                width: fit-content;
+                height: fit-content;
+                font-family: 'Inter';
+                font-style: normal;
+                font-weight: 400;
+                font-size: 36rpx;
+                line-height: 44rpx;
+
+                .upperText {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    align-self: stretch;
+
+                    .upperLeft {
+                        display: flex;
+                        align-items: flex-start;
+
+                        .commodityName {
+                            display: flex;
+                            align-items: center;
+                            width: 50rpx;
+                            text-overflow: ellipsis;
+                        }
+
+                        .commodityType {
+                            color: #777777;
+                            display: flex;
+                            align-items: center;
+                        }
+                    }
+
+                    .upperRight {
+                        display: flex;
+                        align-items: flex-end;
+                        gap: 2rpx;
+
+                        .price {
+                            display: flex;
+                            align-items: center;
+                            font-size: 32rpx;
+                        }
+
+                        .number {
+                            color: #777777;
+                            display: flex;
+                            align-items: center;
+                            font-size: 28rpx;
+                        }
+                    }
+                }
+            }
+        }
+
+        .buttonFrame {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+
+            .changeButton {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-end;
+                margin-left: auto;
+                color: #EB4F1E;
+                border-color: #EB4F1E;
+                width: auto;
+                height: auto;
+                border-radius: 100rpx;
+            }
+        }
+    }
+}

@@ -1,6 +1,8 @@
 import { View, Text } from '@tarojs/components'
 import { useLoad } from '@tarojs/taro'
 import './index.scss'
+import UserInfo from './userinfo'
+import History from './history'
 
 export default function Me() {
 
@@ -8,9 +10,14 @@ export default function Me() {
     console.log('Page loaded.')
   })
 
+let props={
+
+}
+
   return (
     <View className='me'>
-      <Text>这边写我的的代码</Text>
+      <UserInfo />
+      <History props={props} />
     </View>
   )
 }
