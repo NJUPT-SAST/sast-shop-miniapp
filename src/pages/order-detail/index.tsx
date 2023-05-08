@@ -1,5 +1,6 @@
 import { View, Text } from '@tarojs/components'
 import { useLoad } from '@tarojs/taro'
+import Orderdetail from './order-detail'
 import './index.scss'
 
 export default function OrderDetail() {
@@ -10,7 +11,7 @@ export default function OrderDetail() {
 
   return (
     <View className='order-detail'>
-      <Text>Hello world!</Text>
+      <Orderdetail />
     </View>
   )
 }

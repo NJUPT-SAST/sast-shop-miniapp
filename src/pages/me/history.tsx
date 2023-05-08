@@ -14,7 +14,7 @@ export default function History(props) {
                     未发货{props.orderStatus}
                 </View>
                 <View className='particular'>
-                    <Image src={props.img} className='commodity' />
+                    <Image src={props.img} className='commodity' onClick={turnToProductDetail} />
                     <View className='textInfo'>
                         <View className='upperText'>
                             <View className='upperLeft'>
@@ -32,7 +32,7 @@ export default function History(props) {
                     </View>
                 </View>
                 <View className='buttonFrame'>
-                    <Button className='changeButton' plain type='primary' size='mini' onClick={turnToProductDetail}>修改订单</Button>
+                    <Button className='changeButton' plain type='primary' size='mini' onClick={turnToOrderDetail}>修改订单</Button>
                 </View>
             </View>
         </View>
@@ -41,6 +41,12 @@ export default function History(props) {
 
 function turnToProductDetail() {
     Taro.navigateTo({
-        url: '/pages/product-detail/index.tsx'
+        url: '/pages/product-detail/index'
+    })
+}
+
+function turnToOrderDetail() {
+    Taro.navigateTo({
+        url: '/pages/order-detail/index'
     })
 }
