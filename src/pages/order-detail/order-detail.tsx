@@ -48,60 +48,61 @@ export default function Orderdetail() {
     }
 
     return (
-        <View>
-            <View className='formItem'>
-                <Text className='label'>收货人：</Text>
-                <Input className='inputBox' value={name} onInput={handleNameChange} />
+        <>
+            <View className='title'>
+                <Text className='titleText'>编辑收货详情</Text>
             </View>
-            <View className='formItem'>
-                <Text className='label'>手机号码：</Text>
-                <Input className='inputBox' value={phone} type='number' onInput={handlePhoneChange} />
-            </View>
-            <View className='formItem'>
-                <Text className='label'>用户邮箱：</Text>
-                <Input className='inputBox' value={email} type='text' onInput={handleEmailChange} />
-            </View>
-            <View className='formItem'>
-                <Text className='label'>类型：</Text>
-                <Picker className='selector' mode='selector' range={['卡其色', '蓝色']} value={color === '卡其色' ? 0 : 1} onChange={handleColorChange}>
-                    <Text>{color}</Text>
-                </Picker>
-            </View>
-            <View className='formItem'>
-                <Text className='label'>邮寄：</Text>
-                <RadioGroup className='singleChoice' onChange={handlePostChange}>
-                    <Radio value='是' checked={post}>
-                        是
-                    </Radio>
-                    <Radio value='否' checked={!post}>
-                        否
-                    </Radio>
-                </RadioGroup>
-            </View>
-            <View className='formItem'>
-                <Text className='label'>邮寄地址：</Text>
-                <Input className='inputBox' value={address} onInput={handleAddressChange} />
-            </View>
-            <View className='formItem'>
-                <Text className='label'>购买数量：</Text>
-                <View>
-                    <Button className='quantityButton' onClick={() => handleQuantityChange(-1)}>
-                        -
-                    </Button>
-                    <Text>{quantity}</Text>
-                    <Button className='quantityButton' onClick={() => handleQuantityChange(1)}>
-                        +
-                    </Button>
-                </View>
-            </View>
-            <View className='buttons'>
+            <View className='frame'>
                 <View className='formItem'>
-                    <Button plain type='primary' size='mini' onClick={handleCancellation} className='cancelOrder'>取消订单</Button>
+                    <Text className='label'>收货人：</Text>
+                    <Input className='inputBox' value={name} onInput={handleNameChange} placeholder='一名用户' />
                 </View>
                 <View className='formItem'>
-                    <Button plain type='primary' size='mini' onClick={handleSubmit} className='submitChange'>提交修改</Button>
+                    <Text className='label'>手机号码：</Text>
+                    <Input className='inputBox' value={phone} type='number' onInput={handlePhoneChange} placeholder='用户号码' />
+                </View>
+                <View className='formItem'>
+                    <Text className='label'>用户邮箱：</Text>
+                    <Input className='inputBox' value={email} type='text' onInput={handleEmailChange} placeholder='用户邮箱' />
+                </View>
+                <View className='formItem'>
+                    <Text className='label'>类型：</Text>
+                    <Picker className='selector' mode='selector' range={['卡其色', '蓝色']} value={color === '卡其色' ? 0 : 1} onChange={handleColorChange}>
+                        <Text style={{ fontSize: '32rpx' }}>{color}</Text>
+                    </Picker>
+                </View>
+                <View className='formItem'>
+                    <Text className='label'>邮寄：</Text>
+                    <RadioGroup className='singleChoice' onChange={handlePostChange}>
+                        <Radio value='是' checked={post}>
+                            是
+                        </Radio>
+                        <Radio style={{ marginLeft: '20px' }} value='否' checked={!post}>
+                            否
+                        </Radio>
+                    </RadioGroup>
+                </View>
+                <View className='formItem'>
+                    <Text className='label'>邮寄地址：</Text>
+                    <Input className='inputBox' value={address} onInput={handleAddressChange} placeholder='地址' />
+                </View>
+                <View className='formItem'>
+                    <Text className='label'>购买数量：</Text>
+                    <View className='quantityContainer'>
+                        <Button className='quantityButton' onClick={() => handleQuantityChange(-1)}>-</Button>
+                        <Text>{quantity}</Text>
+                        <Button className='quantityButton' onClick={() => handleQuantityChange(1)}>+</Button>
+                    </View>
+                </View>
+                <View className='buttons'>
+                    <View className='formItem'>
+                        <Button hoverClass='button-active' hoverStartTime={0} onClick={handleCancellation} className='cancelOrder'>取消订单</Button>
+                    </View>
+                    <View className='formItem'>
+                        <Button hoverClass='button-active' hoverStartTime={0} onClick={handleSubmit} className='submitChange'>提交修改</Button>
+                    </View>
                 </View>
             </View>
-        </View>
+        </>
     );
 };

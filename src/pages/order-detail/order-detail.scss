@@ -1,0 +1,126 @@
+.frame {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    background-color: #d5d5d5;
+    font-size: 36rpx;
+    font-family: 'Inter';
+    padding-left: 20rpx;
+    padding-top: 10rpx;
+    padding-bottom: 10rpx;
+    height: 120%;
+}
+
+.formItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 684rpx;
+    height: 80rpx;
+    margin-top: 20rpx;
+
+    &.quantityFormItem {
+        justify-content: flex-start;
+    }
+
+    .label {
+        width: 30%;
+        text-align: left;
+        font-weight: 1000;
+        font-size: 32rpx;
+    }
+
+    .inputBox,
+    .selector,
+    .singleChoice {
+        width: 70%;
+        text-align: left;
+    }
+
+    .inputBox {
+        border: 2rpx;
+        border-color: #D9D9D9;
+        border-radius: 20rpx;
+        height: 80rpx;
+        padding-left: 20rpx;
+    }
+
+    .selector {
+        font-size: 28rpx;
+    }
+
+    .singleChoice {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        label {
+            margin-right: 20rpx;
+        }
+    }
+
+    .quantityContainer {
+        display: flex;
+        align-items: center;
+        width: 70%;
+        justify-content: flex-start;
+
+        .quantityButton {
+            display: flex;
+            align-items: center;
+            width: 60rpx;
+            height: 60rpx;
+            font-size: 60rpx;
+        }
+
+        .quantityNumber {
+            font-size: 34rpx;
+            width: 30rpx;
+        }
+    }
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 400rpx;
+    width: 684rpx;
+}
+
+.submitChange {
+    display: flex;
+    width: 222rpx;
+    height: 84rpx;
+    border-radius: 42rpx;
+    background-color: #EB4F1E;
+    color: #ffffff;
+    font-size: 26rpx;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.cancelOrder {
+    display: flex;
+    width: 222rpx;
+    height: 84rpx;
+    border-radius: 42rpx;
+    background-color: #B3B3B3;
+    color: #ffffff;
+    font-size: 26rpx;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-active {
+    background-color: #D9D9D9;
+}
