@@ -1,4 +1,4 @@
-import { View, Text } from '@tarojs/components'
+import { View, Text, Swiper } from '@tarojs/components'
 import { useLoad } from '@tarojs/taro'
 import './index.scss'
 
