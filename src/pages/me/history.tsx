@@ -1,4 +1,4 @@
-import { View, Image, Button } from '@tarojs/components'
+import { View,Text, Image, Button } from '@tarojs/components'
 import Taro, { useLoad } from '@tarojs/taro'
 import './history.scss'
 
@@ -8,6 +8,7 @@ export default function History(props) {
         console.log('Page loaded.')
     })
     return (
+        <>
         <View className='outterFrame'>
             <View className='innerFrame'>
                 <View className='status'>
@@ -18,8 +19,8 @@ export default function History(props) {
                     <View className='textInfo'>
                         <View className='upperText'>
                             <View className='upperLeft'>
-                                <View className='commidityName'>南京邮电大学校科协{props.Name}</View>
-                                <View className='commidityType'>卡其色{props.type}</View>
+                                <View className='commodityName'>南京邮电大学校科协 SAST 2023 纪念定制短袖{props.Name}</View>
+                                <View className='commdityType'>卡其色{props.type}</View>
                             </View>
                             <View className='upperRight'>
                                 <View className='price'>¥99.00{props.price}</View>
@@ -36,6 +37,7 @@ export default function History(props) {
                 </View>
             </View>
         </View>
+        </>
     )
 }
 

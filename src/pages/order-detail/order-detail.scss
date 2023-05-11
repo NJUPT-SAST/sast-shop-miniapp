@@ -10,13 +10,12 @@
     display: flex;
     align-items: center;
     justify-content: left;
-    background-color: #d5d5d5;
     font-size: 36rpx;
     font-family: 'Inter';
     padding-left: 20rpx;
     padding-top: 10rpx;
     padding-bottom: 10rpx;
-    height: 120%;
+    height: 150%;
 }
 
 .formItem {
@@ -46,8 +45,9 @@
     }
 
     .inputBox {
-        border: 2rpx;
+        border-width: 2rpx;
         border-color: #D9D9D9;
+        border-style: solid;
         border-radius: 20rpx;
         height: 80rpx;
         padding-left: 20rpx;
@@ -71,28 +71,88 @@
         display: flex;
         align-items: center;
         width: 70%;
-        justify-content: flex-start;
+        justify-content: flex-end;
 
-        .quantityButton {
+        .quantityButtonLeft {
             display: flex;
             align-items: center;
+            box-sizing: content-box;
             width: 60rpx;
             height: 60rpx;
-            font-size: 60rpx;
+            font-size: 50rpx;
+            font-weight: 1000;
+            background-color: #ffffff;
+            border-radius: 14rpx 0 0 14rpx;
+            border-width: 2rpx;
+            border-color: #D9D9D9;
+            border-style: solid;
+            border-right: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .quantityButtonRight {
+            display: flex;
+            align-items: center;
+            box-sizing: content-box;
+            width: 60rpx;
+            height: 60rpx;
+            font-size: 50rpx;
+            font-weight: 1000;
+            background-color: #ffffff;
+            border-radius: 0 14rpx 14rpx 0;
+            border-width: 2rpx;
+            border-color: #D9D9D9;
+            border-style: solid;
+            border-left: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
         }
 
         .quantityNumber {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-size: 34rpx;
-            width: 30rpx;
+            width: 160rpx;
+            height: 60rpx;
+            border-width: 2rpx;
+            border-color: #D9D9D9;
+            border-style: solid;
+        }
+
+        button::after {
+            border: none;
         }
     }
 }
 
 .buttons {
     display: flex;
-    justify-content: space-between;
-    margin-top: 400rpx;
-    width: 684rpx;
+    justify-content: flex-end;
+    gap: 30rpx;
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 30rpx;
+    padding-right: 30rpx;
+    width: 100%;
+    border-width: 2rpx;
+    border-style: solid;
+    border-color: #D9D9D9;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    padding-top: 16rpx;
+}
+
+button {
+    margin: 0;
 }
 
 .submitChange {
@@ -122,5 +182,5 @@
 }
 
 .button-active {
-    background-color: #D9D9D9;
+    background-color: #D9D9D9 !important;
 }

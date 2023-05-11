@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { View, Text, Input, Picker, Radio, RadioGroup, Button } from '@tarojs/components';
+import { View, Text, Input, Picker, Radio, RadioGroup, Button, Image } from '@tarojs/components';
+import box from '../../assets/images/Box.svg'
 import './order-detail.scss'
 
 export default function Orderdetail() {
@@ -50,6 +51,7 @@ export default function Orderdetail() {
     return (
         <>
             <View className='title'>
+                <Image src={box} style={{height: '50rpx',width: '50rpx'}} />
                 <Text className='titleText'>编辑收货详情</Text>
             </View>
             <View className='frame'>
@@ -74,10 +76,10 @@ export default function Orderdetail() {
                 <View className='formItem'>
                     <Text className='label'>邮寄：</Text>
                     <RadioGroup className='singleChoice' onChange={handlePostChange}>
-                        <Radio value='是' checked={post}>
+                        <Radio color='#EB4F1E' value='是' checked={post}>
                             是
                         </Radio>
-                        <Radio style={{ marginLeft: '20px' }} value='否' checked={!post}>
+                        <Radio color='#EB4F1E' style={{ marginLeft: '20px' }} value='否' checked={!post}>
                             否
                         </Radio>
                     </RadioGroup>
@@ -89,19 +91,19 @@ export default function Orderdetail() {
                 <View className='formItem'>
                     <Text className='label'>购买数量：</Text>
                     <View className='quantityContainer'>
-                        <Button className='quantityButton' onClick={() => handleQuantityChange(-1)}>-</Button>
-                        <Text>{quantity}</Text>
-                        <Button className='quantityButton' onClick={() => handleQuantityChange(1)}>+</Button>
+                        <Button hoverClass='button-active' hoverStartTime={0} className='quantityButtonLeft' onClick={() => handleQuantityChange(-1)}>-</Button>
+                        <Text className='quantityNumber'>{quantity}</Text>
+                        <Button hoverClass='button-active' hoverStartTime={0} className='quantityButtonRight' onClick={() => handleQuantityChange(1)}>+</Button>
                     </View>
                 </View>
-                <View className='buttons'>
-                    <View className='formItem'>
-                        <Button hoverClass='button-active' hoverStartTime={0} onClick={handleCancellation} className='cancelOrder'>取消订单</Button>
-                    </View>
-                    <View className='formItem'>
-                        <Button hoverClass='button-active' hoverStartTime={0} onClick={handleSubmit} className='submitChange'>提交修改</Button>
-                    </View>
-                </View>
+            </View>
+            <View className='buttons'>
+                {/* <View className='formItem'> */}
+                <Button hoverClass='button-active' hoverStartTime={0} onClick={handleCancellation} className='cancelOrder'>取消订单</Button>
+                {/* </View> */}
+                {/* <View className='formItem'> */}
+                <Button hoverClass='button-active' hoverStartTime={0} onClick={handleSubmit} className='submitChange'>提交修改</Button>
+                {/* </View> */}
             </View>
         </>
     );
