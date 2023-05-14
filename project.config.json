@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/",
   "projectname": "sast-shop",
   "description": "SAST 周边商店小程序",
-  "appid": "*********",
+  "appid": "wx728a9d02fbe9006f",
   "setting": {
     "urlCheck": true,
     "es6": false,
@@ -28,5 +28,6 @@
   "editorSetting": {
     "tabIndent": "insertSpaces",
     "tabSize": 2
-  }
+  },
+  "simulatorPluginLibVersion": {}
 }
