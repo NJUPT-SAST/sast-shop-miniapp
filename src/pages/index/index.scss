@@ -1,49 +1,10 @@
-.index-title {
-    margin: 20px 36px;
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 36px;
-    color: #000000;
-}
 
-.index-input {
-    display: flex;
-    width: 680px;
-    height: 75px;
-    border-radius: 15px;
-    background-color: #F5F5F5;
-    margin: 30px auto;
-
-    .input-image {
-        flex: 1;
-
-        .input-icon {
-            margin: 15px 30px;
-        }
-    }
-
-    .input-text {
-        flex: 4.5;
-
-        .input {
-            width: 550px;
-            height: 75px;
-            line-height: normal;
-            outline: none;
-            font-size: 32px;
-        }
-    }
-}
-
-.index-body {
-    position: absolute;
-    bottom: 0px;
+.index {
     width: 750px;
-    height: 900px;
+    min-height: 100vh;
+    height: max-content;
     background-color: #F5F5F5;
-    display: flex;
-    justify-content: center;
+    overflow: hidden;
 
     .body-item {
         position: relative;
@@ -51,7 +12,7 @@
         height: 280px;
         background-color: white;
         border-radius: 30px;
-        margin: 40px 0;
+        margin: 40px auto;
 
         .item-image {
             display: flex;
@@ -61,8 +22,6 @@
             left: 0;
             width: 220px;
             height: 280px;
-
-            .picture {}
         }
 
         .item-text {
