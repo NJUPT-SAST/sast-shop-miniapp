@@ -1,0 +1,36 @@
+.picker-box{
+    width: 100%;
+    box-sizing: border-box;
+    padding-bottom: 36px;
+    line-height: 40px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    .box{
+        position: absolute;
+        margin-right: 30px;
+    }
+    .number{
+        font-weight: bold;
+        text-align: center;
+        width: 12.077rpx;
+    }
+    Button{
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        text-align: center;
+        background-color: white;
+        padding: 0;   
+    }
+    .button1{
+        margin-right: 60px;
+    }
+    .button2{
+        margin-left: 60px;
+        margin-right: 0px;
+    }
+}

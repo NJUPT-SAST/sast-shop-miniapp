@@ -1,9 +1,11 @@
 .picker-box{
+    width: 100%;
     box-sizing: border-box;
     padding-bottom: 36px;
     line-height: 40px;
     position: relative;
     display: flex;
+    justify-content: space-between;
     flex-direction: row;
     align-items: center;
     Text{
@@ -17,8 +19,8 @@
         line-height: 50px;
         padding-left: 14px;
         border-radius: 10px;
-        position: absolute;
-        right: 20px;
+        // position: absolute;
+        // right: 20px;
         .picker{
             position: relative;
             .arrow{

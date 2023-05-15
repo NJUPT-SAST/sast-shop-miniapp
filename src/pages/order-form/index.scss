@@ -1,28 +1,19 @@
-.order-button{
-    z-index: 100;
-    font-size: 28px;
-    text-align: center;
-    line-height: 82px;
-    color:#ffffff;
-    background-color: #EB4F1E;
-    border-radius: 41px;
-    width: 222px;
-    height: 82px;
-    position: fixed;
-    right: 20px;
-    bottom: 30px;
-}
 
 .order-title{
+    margin-left: 20px;
+    display: flex;
     width: 100%;
-    margin-bottom: 30px;
     height: 104px;
+    .title-picture{
+        align-items: center;
+        width: 50px;
+        height: 50px;
+    }
+    .title-text{
+        font-size: 36px;
+    }
 }
 
-.title-text{
-    line-height: 104px;
-    font-size: 36px;
-}
 
 .order-form{
     width: 100%;
@@ -30,10 +21,12 @@
 }
 
 .form-item{
+    width: 100%;
     box-sizing: border-box;
     padding-bottom: 36px;
     line-height: 40px;
     display: flex;
+    justify-content: space-between;
     flex-direction: row;
     align-items: center;
     position: relative;
@@ -55,8 +48,8 @@ Input{
     line-height: 50px;
     padding-left: 14px;
     border-radius: 10px;
-    position: absolute;
-    right: 20px;
+    // position: absolute;
+    // right: 20px;
 }
 
 .location{
@@ -69,6 +62,7 @@ Input{
     width: 100%;
     font-size: 36px;
     margin-top: 40px;
+    margin-bottom: 40px;
 }
 .good-line{
     line-height: 80px;
@@ -108,10 +102,37 @@ Input{
 }
 
 .Price{
-    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-top: 2px solid #B3B3B3;
+    position: fixed !important;
+    width: 100%;
+    height:100px;
     font-size: 40px;
-    text-align: center;
+    bottom: 0;
+    left: 0;
+    .Price-text{
+        padding-right: 0px;
+    }
 }
+.order-button{
+    z-index: 100;
+    font-size: 28px;
+    text-align: center;
+    line-height: 82px;
+    color:#ffffff;
+    background-color: #EB4F1E;
+    border-radius: 41px;
+    width: 222px;
+    height: 82px;
+    margin-left: 20px;   
+    margin-right: 0;
+}
+
+// Page{
+//     padding-bottom: 120.773rpx;
+// }
 
 
 
