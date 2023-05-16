@@ -1,0 +1,16 @@
+.orders {
+    border-color: #d9d9d9;
+    border-width: 2rpx;
+    border-style: solid;
+    border-bottom: none;
+    overflow: scroll;
+}
+
+.no-order {
+    display: flex;
+    justify-content: center;
+    font-size: 50rpx;
+    color: #777777;
+    font-family: 'Inter';
+    margin-top: 20rpx;
+}

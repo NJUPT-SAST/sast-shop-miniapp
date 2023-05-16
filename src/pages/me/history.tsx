@@ -1,42 +1,62 @@
-import { View,Text, Image, Button } from '@tarojs/components'
+import { View, Image, Button } from '@tarojs/components'
 import Taro, { useLoad } from '@tarojs/taro'
+import { useEffect, useState } from 'react';
 import './history.scss'
 
-export default function History(props) {
+interface Props {
+    order: {
+        id: number;
+        name: string;
+        type: string;
+        price: number;
+        count: number;
+        isPay: boolean | null;
+        isPost: boolean | null;
+        image: string;
+    };
+}
+
+export default function History(props: Props) {
 
     useLoad(() => {
         console.log('Page loaded.')
     })
+
+    const [orderStatus, setOrderStatus] = useState<Boolean | null>(false);
+
+    useEffect(() => {
+        setOrderStatus(props.order.isPost);
+    }, [props.order.isPost]);
     return (
         <>
-        <View className='outterFrame'>
-            <View className='innerFrame'>
-                <View className='status'>
-                    未发货{props.orderStatus}
-                </View>
-                <View className='particular'>
-                    <Image src={props.img} className='commodity' onClick={turnToProductDetail} />
-                    <View className='textInfo'>
-                        <View className='upperText'>
-                            <View className='upperLeft'>
-                                <View className='commodityName'>南京邮电大学校科协 SAST 2023 纪念定制短袖{props.Name}</View>
-                                <View className='commdityType'>卡其色{props.type}</View>
+            <View className='outterFrame'>
+                <View className='innerFrame'>
+                    <View className='status'>
+                        {orderStatus ? '未发货' : '已发货'}
+                    </View>
+                    <View className='particular'>
+                        <Image src={props.order.image} />
+                        <View className='textInfo'>
+                            <View className='upperText'>
+                                <View className='upperLeft'>
+                                    <View className='commodityName'>{props.order.name}</View>
+                                    <View className='commdityType'>{props.order.type}</View>
+                                </View>
+                                <View className='upperRight'>
+                                    <View className='price'>¥{props.order.price}</View>
+                                    <View className='number'>×{props.order.count}</View>
+                                </View>
                             </View>
-                            <View className='upperRight'>
-                                <View className='price'>¥99.00{props.price}</View>
-                                <View className='number'>×1{props.number}</View>
+                            <View className='lowerText'>
+                                <View className='realPay'>实付款¥{(props.order.price * props.order.count)}</View>
                             </View>
-                        </View>
-                        <View className='lowerText'>
-                            <View className='realPay'>实付款¥{(props.price * props.number).toFixed(2)}</View>
                         </View>
                     </View>
-                </View>
-                <View className='buttonFrame'>
-                    <Button className='changeButton' plain type='primary' size='mini' onClick={turnToOrderDetail}>修改订单</Button>
+                    <View className='buttonFrame'>
+                        <Button className='changeButton' plain type='primary' size='mini' onClick={turnToOrderDetail}>修改订单</Button>
+                    </View>
                 </View>
             </View>
-        </View>
         </>
     )
 }

@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/",
   "projectname": "sast-shop",
   "description": "SAST 周边商店小程序",
-  "appid": "wx074f191ec9e8bb26",
+  "appid": "wx7a01d6604f58b522",
   "setting": {
     "urlCheck": true,
     "es6": false,

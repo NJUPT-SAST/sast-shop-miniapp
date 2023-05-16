@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Taro, { getStorageSync } from '@tarojs/taro';
 import { View, Text, Input, Picker, Radio, RadioGroup, Button, Image } from '@tarojs/components';
 import box from '../../assets/images/Box.svg'
 import './order-detail.scss'
@@ -40,18 +41,84 @@ export default function Orderdetail() {
         setQuantity(Math.max(1, quantity + delta));
     };
 
+    const id: string = getStorageSync("ID")
+    //const token = getStorageSync("TOKEN");
+    const token: string = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcGVuaWQiOiJvaHBqdzVEdUpfci00UzJFS2I3LXpEM2Y4WV9VIiwic2Vzc2lvbl9rZXkiOiJlc3o3RHNwMC95Qy9yRThZYjZ4VTlRPT0iLCJleHAiOjMxMTIwODQwNjk2ODR9.VE1yXq6o8huEnAOPuj-HzW_ZUG5dmd1Aaw_cRv-2dVk'
+
     const handleSubmit = () => {
-        //提交表单数据
+        Taro.showModal({
+            title: '确认修改',
+            content: '确认提交修改？',
+            success: function (res) {
+                if (res.confirm) {
+                    Taro.request({
+                        url: 'https://wechatpayment.sast.fun/user/order/' + id,
+                        method: 'PATCH',
+                        header: {
+                            'TOKEN': { token }
+                        },
+                        data: {
+                            name: name,
+                            phone: phone,
+                            email: email,
+                            address: address,
+                        },
+                        success: function () {
+                            Taro.showToast({
+                                title: '修改成功',
+                                icon: 'success',
+                                duration: 2000
+                            })
+                        },
+                        fail: function () {
+                            Taro.showToast({
+                                title: '修改失败',
+                                icon: 'none',
+                                duration: 2000
+                            })
+                        }
+                    })
+                }
+            }
+        })
     };
 
     const handleCancellation = () => {
-        //取消订单
+        Taro.showModal({
+            title: '确认取消',
+            content: '确认取消订单？',
+            success: function (res) {
+                if (res.confirm) {
+                    Taro.request({
+                        url: 'https://wechatpayment.sast.fun/user/order/' + id,
+                        method: 'DELETE',
+                        header: {
+                            'TOKEN': { token }
+                        },
+                        success: function () {
+                            Taro.showToast({
+                                title: '订单已取消',
+                                icon: 'success',
+                                duration: 2000
+                            })
+                        },
+                        fail: function () {
+                            Taro.showToast({
+                                title: '取消订单失败',
+                                icon: 'none',
+                                duration: 2000
+                            })
+                        }
+                    })
+                }
+            }
+        })
     }
 
     return (
         <>
             <View className='title'>
-                <Image src={box} style={{height: '50rpx',width: '50rpx'}} />
+                <Image src={box} style={{ height: '50rpx', width: '50rpx' }} />
                 <Text className='titleText'>编辑收货详情</Text>
             </View>
             <View className='frame'>
@@ -98,12 +165,8 @@ export default function Orderdetail() {
                 </View>
             </View>
             <View className='buttons'>
-                {/* <View className='formItem'> */}
                 <Button hoverClass='button-active' hoverStartTime={0} onClick={handleCancellation} className='cancelOrder'>取消订单</Button>
-                {/* </View> */}
-                {/* <View className='formItem'> */}
                 <Button hoverClass='button-active' hoverStartTime={0} onClick={handleSubmit} className='submitChange'>提交修改</Button>
-                {/* </View> */}
             </View>
         </>
     );
