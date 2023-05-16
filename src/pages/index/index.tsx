@@ -5,20 +5,33 @@ import item_image from '../../assets/images/index/frame.png'
 import './index.scss'
 
 export default function Index() {
-  const [title, changeTitle] = useState('南京邮电大学校科协 SAST 2023 纪念定制短袖')
-  const [price, changePrice] = useState('99')
-  const [id, changeId] = useState('0')
-  const [image, changeImage] = useState(item_image)
+  const [title, changeTitle] = useState([])
+  const [price, changePrice] = useState([])
+  const [id, changeId] = useState([])
+  const [image, changeImage] = useState([])
+  const [myId, changemyId] = useState([])
   const [indexObject, changeindexObject] = useState([{
     title: '南京邮电大学校科协 SAST 2023 纪念定制短袖',
     price: 99,
     image: item_image,
     id: 0
+  },
+  {
+    title: '南京邮电大学校科协 SAST 2023 纪念定制短袖',
+    price: 99,
+    image: item_image,
+    id: 1
+  },
+  {
+    title: '南京邮电大学校科协 SAST 2023 纪念定制短袖',
+    price: 99,
+    image: item_image,
+    id: 2
   }])
 
-  const gotoDetail = () => {
+  const gotoDetail = (item) => {
     Taro.navigateTo({
-      url: `/pages/product-detail/index?id=${id}`
+      url: `/pages/product-detail/index?id=${item.id}`
     })
   }
 
@@ -30,17 +43,12 @@ export default function Index() {
         'content-type': 'application/json'
       },
       success: function (res) {
-        // console.log(res.data.image)
-        changeTitle(res.data.title)
-        changePrice(res.data.price)
-        changeId(res.data.id)
-        changeImage(res.data.image)
-        changeindexObject([{
-          title: res.data.title,
-          price: res.data.price,
-          image: res.data.image,
-          id: res.data.id
-        }])
+        for (let i = 0; i < res.data.data.length; i++) {
+          console.log(res.data.data[i])
+          changeId(res.data.data[i].id)
+          changeindexObject(res.data.data)
+        }
+        // console.log(res.data.data)
       }
     })
   }, [])
@@ -50,26 +58,31 @@ export default function Index() {
   })
 
   return (
-    <View className='index'>
+    <ul className='index'>
 
       {
-        indexObject.map(({ title, price, id, image }) => {
-          return <View className='body-item' key={id} onClick={gotoDetail}>
-            <View className='item-image'>
-              <Image mode='aspectFit' className='picture' style='height: 100px' src={image}></Image>
-            </View>
-            <View className='item-text'>
-              <View className='text-title'>
-                <Text>{title}</Text>
+        indexObject.map((item) => {
+
+          return (
+            <li key={item.id} onClick={() => gotoDetail(item)}>
+              <View className='body-item'>
+                <View className='item-image'>
+                  <Image mode='aspectFit' className='picture' style='height: 100px' src={item.image}></Image>
+                </View>
+                <View className='item-text'>
+                  <View className='text-title'>
+                    <Text>{item.title}</Text>
+                  </View>
+                  <View className='text-money'>
+                    ￥{item.price}
+                  </View>
+                </View>
               </View>
-              <View className='text-money'>
-                ￥{price}
-              </View>
-            </View>
-          </View>
+            </li>
+          )
         })
       }
 
-    </View>
+    </ul>
   )
 }
