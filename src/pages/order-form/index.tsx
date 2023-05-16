@@ -1,5 +1,5 @@
 import { View, Text, Button, Input, Radio, Label, RadioGroup ,Image } from '@tarojs/components'
-import { useLoad } from '@tarojs/taro'
+import { useLoad ,getCurrentInstance} from '@tarojs/taro'
 import Taro from '@tarojs/taro'
 import './index.scss'
 import"./number.scss"
@@ -12,7 +12,6 @@ export default function OrderForm() {
 
   const [send,setSend]=useState(false)
   const sendPrice=send?12:0
-  const [button,setButton]=useState(0)
 
   const[Num,setNum]=useState(1);
     function add(){
@@ -38,24 +37,23 @@ export default function OrderForm() {
   })
 
   useLoad(() => {
-    console.log('Page loaded.')
+    // console.log('Page loaded.')
   })
 
-  const nameRef=useRef('')
-  const phoneRef=useRef('')
-  const emailRef=useRef('')
-  const needPostRef=useRef(0)
-  const addressRef=useRef('')
+  const [nameValue,setNameValue]=useState('')
+  const [phoneValue,setPhoneValue]=useState('')
+  const [addressValue,setAddressValue]=useState('')
+  const [emailValue,setEmailValue]=useState('')
+ 
+  
 
   function btClick(){
-    const nameValue = nameRef.current.value
-    const phoneValue = phoneRef.current.value
-    const emailValue = emailRef.current.value
+    
     const typeValue=type.selector[type.selectorChecked]
     const sizeValue = size.selector[size.selectorChecked]
     const countValue = Num
     const needPostValue = send?1:0
-    const addressValue = addressRef.current.value
+    const id = getCurrentInstance().router.params.id
 
     const postdata={
       name:nameValue,
@@ -66,8 +64,9 @@ export default function OrderForm() {
       count:countValue,
       needPost:needPostValue,
       postAddress:addressValue,
-      productId:1,
+      productId:id,
     }
+
 
     if(nameValue==''||phoneValue==''||emailValue==''||(needPostValue==1&&addressValue=='')){
       Taro.showModal({
@@ -83,16 +82,90 @@ export default function OrderForm() {
       })
     }
     else{
+      //创建表单
       Taro.request({
-        url:'http://127.0.0.1:4523/m1/2655521-0-default/user/order',
+        url:'https://wechatpayment.sast.fun/user/order',
         data:postdata,
         method:'POST',
         header:{
-          'content-type':'application/json'
+          'content-type':'application/json',
+          // 'TOKEN': code
         },
         success:(res)=>{
           console.log(res.data)
-          
+        },
+        fail:(err)=>{
+          console.log(err)
+        },
+      })
+
+      //保存一份信息
+      Taro.request({
+        url:'https://wechatpayment.sast.fun/user/information',
+        data:{
+          name:nameValue,
+          phone:phoneValue,
+          postAddress:addressValue,
+        },
+        method:'POST',
+        header:{
+          'content-type':'application/json',
+          // 'TOKEN': code
+        },
+        success:(res)=>{
+          console.log(res.data)
+        },
+        fail:(err)=>{
+          console.log(err)
+        },
+      })
+
+      //将用户的信息进行填写
+      Taro.request({
+        url:'https://wechatpayment.sast.fun/user/information',
+                method:'GET',
+                header:{
+                  'content-type':'application/json',
+                  // 'TOKEN': code
+                },
+                success:(res)=>{
+                  console.log(res.data)
+                  setNameValue(res.data.name)
+                  setPhoneValue(res.data.phone)
+                  setAddressValue(res.data.postAddress)
+                },
+                fail:(err)=>{
+                  console.log(err)
+                },
+      })
+
+      
+      //发起支付
+      Taro.request({
+        url:'https://wechatpayment.sast.fun/user/pay',
+        data:{
+          id:1
+        },
+        method:'POST',
+        header:{
+          'content-type':'application/json'
+          // 'TOKEN': code
+        },
+        success:(res)=>{
+          console.log(res.data)
+          Taro.requestPayment({
+            timeStamp:res.data.timeStamp,
+            nonceStr:res.data.nonceStr,
+            package:res.data.package,
+            signType:res.data.signType,
+            paySign:res.data.paySign,
+            success:(res)=>{
+              console.log(res)
+            },
+            fail:(err)=>{
+              console.log(err)
+            }
+          })
         },
         fail:(err)=>{
           console.log(err)
@@ -113,17 +186,17 @@ export default function OrderForm() {
         <View className='order-box'>
           <View className='form-item'>
             <Text>收货人</Text>
-            <Input  ref={nameRef} className='order-input' type='text' placeholder='用户姓名'></Input>
+            <Input value={nameValue} onInput={(e)=>{setNameValue(e.detail.value)}} className='order-input' type='text' placeholder='用户姓名'></Input>
           </View>
 
           <View className='form-item'>
             <Text>手机号码</Text>
-            <Input ref={phoneRef} type='text' placeholder='用户号码'></Input>
+            <Input value={phoneValue} onInput={(e)=>{setPhoneValue(e.detail.value)}} type='text' placeholder='用户号码'></Input>
           </View>
 
           <View className='form-item'>
             <Text>用户邮箱</Text>
-            <Input ref={emailRef} type='text' placeholder='用户邮箱'></Input>
+            <Input onInput={(e)=>{setEmailValue(e.detail.value)}} type='text' placeholder='用户邮箱'></Input>
           </View>
 
           
@@ -133,7 +206,7 @@ export default function OrderForm() {
 
           <View className='form-item'>
             <Text>邮寄</Text>
-            <RadioGroup ref={needPostRef} className='location'>
+            <RadioGroup className='location'>
               <Label>
                 <Radio onClick={()=>{setSend(true)}} checked={send} value='true'>是</Radio>
               </Label>
@@ -146,7 +219,7 @@ export default function OrderForm() {
           {send&&
           <View className='form-item'>
             <Text>邮寄地址</Text>
-            <Input ref={addressRef} type='text' placeholder='地址'></Input>
+            <Input value={addressValue} onInput={(e)=>{setAddressValue(e.detail.value)}} type='text' placeholder='地址'></Input>
           </View>}
 
           <View className="picker-box">

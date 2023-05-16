@@ -1,0 +1,45 @@
+
+.index {
+    width: 750px;
+    min-height: 100vh;
+    height: max-content;
+    background-color: #F5F5F5;
+    overflow: hidden;
+
+    .body-item {
+        position: relative;
+        width: 650px;
+        height: 280px;
+        background-color: white;
+        border-radius: 30px;
+        margin: 40px auto;
+
+        .item-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            left: 0;
+            width: 220px;
+            height: 280px;
+        }
+
+        .item-text {
+            position: absolute;
+            right: 0;
+            width: 430px;
+            height: 280px;
+            .text-title {
+                font-size: 32px;
+                font-family: 'Inter';
+                font-weight: 600;
+                color: #000000;
+                margin-top: 60px;
+            }
+            .text-money {
+                color: #EB4F1E;
+                margin-top: 10px;
+            }
+        }
+    }
+}

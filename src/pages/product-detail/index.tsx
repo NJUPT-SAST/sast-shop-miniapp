@@ -1,5 +1,5 @@
-import { View, Swiper, SwiperItem, Image, Button, ScrollView,Text } from '@tarojs/components'
-import { useLoad } from '@tarojs/taro'
+import { View, Swiper, SwiperItem, Image, Button, ScrollView, Text } from '@tarojs/components'
+import { useLoad, getCurrentInstance } from '@tarojs/taro'
 import img1 from '../../assets/images/img1.jpg'
 import img2 from '../../assets/images/img2.jpg'
 import img3 from '../../assets/images/img3.jpg'
@@ -15,9 +15,8 @@ export default function ProductDetail() {
     img3,
     img4,
   ]
-    
-  console.log(imgState);
-  
+
+  var code=''
   const [title,setTitle]=useState( '南京邮电大学校科协 SAST 2023 纪念定制短袖')
   const [price,setPrice]=useState('99')
   const [description,setDescription]=useState('商品的详情介绍')
@@ -25,12 +24,53 @@ export default function ProductDetail() {
   const [image,setImage]=useState<Array<any>>(imgState)
 
 
+  // function getDate(id:any){
+  //   Taro.request({
+  //     url:`https://wechatpayment.sast.fun/user/productInfo/${id}`,
+  //     method: 'GET',
+  //     header:{
+  //       'content-type': 'application/json',
+  //       'TOKEN': code
+  //     },
+  //     success: (res) => {
+  //           console.log(res.data);
+  //           setPrice(res.data.price)
+  //           setDescription(res.data.description)
+  //           setTitle(res.data.title)
+  //           setType(res.data.type)
+  //           setImage(res.data.data.image)
+  //         },
+  //     fail:(error)=>{
+  //       console.log(error); 
+  //     }
+  //   })
+  // }
+  // useEffect(() => {
+  //     getDate(id)  
+  //   }, [])
+  
+  
+
+  useLoad(() => {
+    // console.log('Page loaded.')
+    Taro.login({
+      success: (res) => {
+        code = res.code
+        console.log(code)
+      },
+      fail: (error) => {
+        console.log(error)
+      }
+    })
+  })
+
   function getDate(id:any){
     Taro.request({
-      url: `http://127.0.0.1:4523/m1/2655521-0-default/user/productInfo/${id}`,
+      url:`https://wechatpayment.sast.fun/user/productInfo/${id}`,
       method: 'GET',
       header:{
-        'content-type': 'application/json'
+        'content-type': 'application/json',
+        'TOKEN': code
       },
       success: (res) => {
             console.log(res.data);
@@ -48,17 +88,19 @@ export default function ProductDetail() {
   useEffect(() => {
       getDate(1)  
     }, [])
-  
-  
 
-  useLoad(() => {
-    console.log('Page loaded.')
-  })
+  const id = getCurrentInstance().router.params.id
+  console.log(id)
 
-  const swiperitem=image.map(img=><SwiperItem className='swiper-item'><Image mode='aspectFit' style='width:100%;height:100% ' className='img-item' src={img}></Image></SwiperItem>)
+  const gotoOrder = () => {
+    Taro.navigateTo({
+      url: `/pages/order-form/index?id=${id}`                                                                                                                                                                                                               
+    })
+  }
+
   return (
     <View
-    style='overflow:hidden'
+      style='overflow:hidden'
     >
       <Swiper
         className='swiper'
@@ -68,14 +110,14 @@ export default function ProductDetail() {
         indicatorDots
         display-multiple-items
         >
-          {swiperitem}
-          {/* {
+          {/* {swiperitem} */}
+          {
           image.map(img=> {
             return (  <SwiperItem className='swiper-item'>
             <Image mode='aspectFit' style='width:100%;height:100% ' className='img-item' src={img}></Image>
             </SwiperItem>)
           }) 
-        } */}
+        }
            
  
         {/* <SwiperItem className='swiper-item'><Image mode='aspectFit' style='width:100%;height:100% ' className='img-item' src={image[0]}></Image></SwiperItem>
@@ -85,7 +127,7 @@ export default function ProductDetail() {
       </Swiper>
         <View className="good-introduce">{title}</View>
         <View className="good-price">￥{price}</View>
-        <Button className='good-button'>立即购买</Button>
+        <Button onClick={gotoOrder} className='good-button'>立即购买</Button>
 
         <View className='type'>
           <View className='type-view'>颜色<Text className='type-item'>{type}</Text></View>
