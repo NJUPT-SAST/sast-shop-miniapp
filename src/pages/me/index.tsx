@@ -7,7 +7,7 @@ import History from './history'
 
 
 interface Order {
-  id: number;
+  id: string;
   userId: number | null;
   name: string;
   phone: string;
@@ -15,8 +15,8 @@ interface Order {
   productId: number | null;
   type: string;
   size: string;
-  count: number;
-  price: number;
+  count: string;
+  price: string;
   image: string;
   isPay: boolean | null;
   needPost: boolean | null;
@@ -31,23 +31,23 @@ export default function Me() {
   const [orderData, setOrderData] = useState<Order[]>([]);
 
   useLoad(() => {
-    // Taro.login({
-    //   success(result) {
-    //     if (result.code) {
-    //       console.log(result.code)
-    //       Taro.request({
-    //         method: 'POST',
-    //         url: 'https://wechatpayment.sast.fun/login',
-    //         data: {
-    //           weChatCode: result.code
-    //         },
-    //         success(token_res) {
-    //           console.log(token_res)
-    //         },
-    //       })
-    //     }
-    //   },
-    // })
+    Taro.login({
+      success(result) {
+        if (result.code) {
+          console.log(result.code)
+          Taro.request({
+            method: 'POST',
+            url: 'https://wechatpayment.sast.fun/login',
+            data: {
+              weChatCode: result.code
+            },
+            success(token_res) {
+              console.log(token_res)
+            },
+          })
+        }
+      },
+    })
   })
 
   useEffect(() => {
@@ -71,12 +71,15 @@ export default function Me() {
     });
   }, []);
 
+  console.log(orderData.length)
+
   return (
     <View className='me'>
       <UserInfo />
       <View className='orders'>
         {orderData.length > 0 ?
           orderData.map((order: Order, index: number) => (
+            //order.isDelete?<></>:
             <History key={index} order={order} />
           )) :
           <Text className='no-order'>暂无历史订单</Text>}

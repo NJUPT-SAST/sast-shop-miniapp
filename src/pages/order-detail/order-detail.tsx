@@ -41,9 +41,9 @@ export default function Orderdetail() {
         setQuantity(Math.max(1, quantity + delta));
     };
 
-    const id: string = getStorageSync("ID")
     //const token = getStorageSync("TOKEN");
     const token: string = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcGVuaWQiOiJvaHBqdzVEdUpfci00UzJFS2I3LXpEM2Y4WV9VIiwic2Vzc2lvbl9rZXkiOiJlc3o3RHNwMC95Qy9yRThZYjZ4VTlRPT0iLCJleHAiOjMxMTIwODQwNjk2ODR9.VE1yXq6o8huEnAOPuj-HzW_ZUG5dmd1Aaw_cRv-2dVk'
+    const id = Taro.getCurrentInstance()?.router?.params?.id || '';
 
     const handleSubmit = () => {
         Taro.showModal({
@@ -68,7 +68,16 @@ export default function Orderdetail() {
                                 title: '修改成功',
                                 icon: 'success',
                                 duration: 2000
-                            })
+                            }).then(
+                                () => {
+                                    setTimeout(
+                                        () => {
+                                            Taro.switchTab({
+                                                url: '/pages/me/index'
+                                            })
+                                        }, 2000)
+                                }
+                            )
                         },
                         fail: function () {
                             Taro.showToast({
@@ -100,7 +109,16 @@ export default function Orderdetail() {
                                 title: '订单已取消',
                                 icon: 'success',
                                 duration: 2000
-                            })
+                            }).then(
+                                () => {
+                                    setTimeout(
+                                        () => {
+                                            Taro.switchTab({
+                                                url: '/pages/me/index'
+                                            })
+                                        }, 2000)
+                                }
+                            )
                         },
                         fail: function () {
                             Taro.showToast({

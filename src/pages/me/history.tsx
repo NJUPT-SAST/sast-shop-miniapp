@@ -5,11 +5,11 @@ import './history.scss'
 
 interface Props {
     order: {
-        id: number;
+        id: string;
         name: string;
         type: string;
-        price: number;
-        count: number;
+        price: string;
+        count: string;
         isPay: boolean | null;
         isPost: boolean | null;
         image: string;
@@ -27,6 +27,19 @@ export default function History(props: Props) {
     useEffect(() => {
         setOrderStatus(props.order.isPost);
     }, [props.order.isPost]);
+
+    function turnToProductDetail() {
+        Taro.navigateTo({
+            url: '/pages/product-detail/index'
+        })
+    }
+
+    function turnToOrderDetail() {
+        Taro.navigateTo({
+            url: '/pages/order-detail/index?id=' + props.order.id
+        })
+    }
+
     return (
         <>
             <View className='outterFrame'>
@@ -35,7 +48,7 @@ export default function History(props: Props) {
                         {orderStatus ? '未发货' : '已发货'}
                     </View>
                     <View className='particular'>
-                        <Image src={props.order.image} />
+                        <Image className='commodity' src={props.order.image} />
                         <View className='textInfo'>
                             <View className='upperText'>
                                 <View className='upperLeft'>
@@ -48,7 +61,7 @@ export default function History(props: Props) {
                                 </View>
                             </View>
                             <View className='lowerText'>
-                                <View className='realPay'>实付款¥{(props.order.price * props.order.count)}</View>
+                                <View className='realPay'>实付款¥{(((props.order.price as unknown) as number) * ((props.order.count as unknown) as number))}</View>
                             </View>
                         </View>
                     </View>
@@ -61,14 +74,3 @@ export default function History(props: Props) {
     )
 }
 
-function turnToProductDetail() {
-    Taro.navigateTo({
-        url: '/pages/product-detail/index'
-    })
-}
-
-function turnToOrderDetail() {
-    Taro.navigateTo({
-        url: '/pages/order-detail/index'
-    })
-}
