@@ -42,7 +42,7 @@ export default function Orderdetail() {
     };
 
     //const token = getStorageSync("TOKEN");
-    const token: string = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcGVuaWQiOiJvaHBqdzVEdUpfci00UzJFS2I3LXpEM2Y4WV9VIiwic2Vzc2lvbl9rZXkiOiJlc3o3RHNwMC95Qy9yRThZYjZ4VTlRPT0iLCJleHAiOjMxMTIwODQwNjk2ODR9.VE1yXq6o8huEnAOPuj-HzW_ZUG5dmd1Aaw_cRv-2dVk'
+    const token: string = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcGVuaWQiOiJvaHBqdzVEdUpfci00UzJFS2I3LXpEM2Y4WV9VIiwic2Vzc2lvbl9rZXkiOiJDTW9kblhCb3VuMURxMDZRWENUZVVBPT0iLCJleHAiOjMxMTIwODQ0MTgyMjl9.wDVbxf5pRKpxoAzK2MPzSdih4QnA81slBTF3c0TsSio'
     const id = Taro.getCurrentInstance()?.router?.params?.id || '';
 
     const handleSubmit = () => {
@@ -55,7 +55,7 @@ export default function Orderdetail() {
                         url: 'https://wechatpayment.sast.fun/user/order/' + id,
                         method: 'PATCH',
                         header: {
-                            'TOKEN': { token }
+                            'TOKEN': token
                         },
                         data: {
                             name: name,
@@ -70,9 +70,10 @@ export default function Orderdetail() {
                                 duration: 2000
                             }).then(
                                 () => {
+                                    console.log("修改成功")
                                     setTimeout(
                                         () => {
-                                            Taro.switchTab({
+                                            Taro.reLaunch({
                                                 url: '/pages/me/index'
                                             })
                                         }, 2000)
@@ -102,9 +103,10 @@ export default function Orderdetail() {
                         url: 'https://wechatpayment.sast.fun/user/order/' + id,
                         method: 'DELETE',
                         header: {
-                            'TOKEN': { token }
+                            'TOKEN': token
                         },
                         success: function () {
+                            console.log(id)
                             Taro.showToast({
                                 title: '订单已取消',
                                 icon: 'success',
@@ -113,7 +115,7 @@ export default function Orderdetail() {
                                 () => {
                                     setTimeout(
                                         () => {
-                                            Taro.switchTab({
+                                            Taro.reLaunch({
                                                 url: '/pages/me/index'
                                             })
                                         }, 2000)

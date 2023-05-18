@@ -28,11 +28,11 @@ export default function History(props: Props) {
         setOrderStatus(props.order.isPost);
     }, [props.order.isPost]);
 
-    function turnToProductDetail() {
-        Taro.navigateTo({
-            url: '/pages/product-detail/index'
-        })
-    }
+    // function turnToProductDetail() {
+    //     Taro.navigateTo({
+    //         url: '/pages/product-detail/index'
+    //     })
+    // }
 
     function turnToOrderDetail() {
         Taro.navigateTo({
@@ -61,7 +61,7 @@ export default function History(props: Props) {
                                 </View>
                             </View>
                             <View className='lowerText'>
-                                <View className='realPay'>实付款¥{(((props.order.price as unknown) as number) * ((props.order.count as unknown) as number))}</View>
+                                <View className='realPay'>实付款¥{(((props.order.price as unknown) as number) * ((props.order.count as unknown) as number)).toFixed(2)}</View>
                             </View>
                         </View>
                     </View>

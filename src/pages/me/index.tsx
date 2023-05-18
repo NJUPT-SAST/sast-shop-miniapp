@@ -23,12 +23,14 @@ interface Order {
   postAddress: string | null;
   isPost: boolean | null;
   expressNum: string | null;
-  isDelete: boolean | null;
+  isDelete: string;
   recordId: number | null;
 }
 
 export default function Me() {
   const [orderData, setOrderData] = useState<Order[]>([]);
+  const [token, setToken] = useState<string>('')
+  //setToken('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcGVuaWQiOiJvaHBqdzVEdUpfci00UzJFS2I3LXpEM2Y4WV9VIiwic2Vzc2lvbl9rZXkiOiJDTW9kblhCb3VuMURxMDZRWENUZVVBPT0iLCJleHAiOjMxMTIwODQ0MTgyMjl9.wDVbxf5pRKpxoAzK2MPzSdih4QnA81slBTF3c0TsSio')
 
   useLoad(() => {
     Taro.login({
@@ -56,7 +58,7 @@ export default function Me() {
       method: 'GET',
       header: {
         'content-type': 'application/json',
-        'TOKEN': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcGVuaWQiOiJvaHBqdzVEdUpfci00UzJFS2I3LXpEM2Y4WV9VIiwic2Vzc2lvbl9rZXkiOiJlc3o3RHNwMC95Qy9yRThZYjZ4VTlRPT0iLCJleHAiOjMxMTIwODQwNjk2ODR9.VE1yXq6o8huEnAOPuj-HzW_ZUG5dmd1Aaw_cRv-2dVk'
+        'TOKEN': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcGVuaWQiOiJvaHBqdzVEdUpfci00UzJFS2I3LXpEM2Y4WV9VIiwic2Vzc2lvbl9rZXkiOiJDTW9kblhCb3VuMURxMDZRWENUZVVBPT0iLCJleHAiOjMxMTIwODQ0MTgyMjl9.wDVbxf5pRKpxoAzK2MPzSdih4QnA81slBTF3c0TsSio'
       },
       success: (res) => {
         if (res.data.success && res.data) {
@@ -71,7 +73,7 @@ export default function Me() {
     });
   }, []);
 
-  console.log(orderData.length)
+  console.log(orderData)
 
   return (
     <View className='me'>
@@ -79,8 +81,7 @@ export default function Me() {
       <View className='orders'>
         {orderData.length > 0 ?
           orderData.map((order: Order, index: number) => (
-            //order.isDelete?<></>:
-            <History key={index} order={order} />
+            order.isDelete === "0" ? <History key={index} order={order} /> : null
           )) :
           <Text className='no-order'>暂无历史订单</Text>}
       </View>

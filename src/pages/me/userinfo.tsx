@@ -5,6 +5,7 @@ import './userinfo.scss'
 
 interface info {
     name: string;
+
 }
 
 export default function UserInfo() {
@@ -19,16 +20,27 @@ export default function UserInfo() {
 
     useLoad(() => {
         console.log('Page loaded.')
-        Taro.request({
-            method: 'GET',
-            url: 'https://wechatpayment.sast.fun/user',
-            header: {
-                'TOKEN': { token }
+        // Taro.request({
+        //     method: 'GET',
+        //     url: 'https://wechatpayment.sast.fun/user',
+        //     header: {
+        //         'TOKEN': { token }
+        //     },
+        //     success(res) {
+        //         setNickname(res.data.name)
+        //     }
+        // })
+        wx.getUserProfile({
+            desc: '用于完善会员资料', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+            success: (res) => {
+              setNickname(res.UserInfo.nickname)
+              setHeadPortrait(res.UserInfo.avatarUrl)
+              console.log("suceeded")
             },
-            success(res) {
-                setNickname(res.data.name)
+            fail: () => {
+                console.log("failed")
             }
-        })
+          })
     })
 
     return (
