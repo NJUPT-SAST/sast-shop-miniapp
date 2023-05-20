@@ -1,16 +1,70 @@
 import { View, Text, Button, Input, Radio, Label, RadioGroup ,Image } from '@tarojs/components'
-import { useLoad ,getCurrentInstance} from '@tarojs/taro'
+import { useLoad ,getCurrentInstance , getStorageSync} from '@tarojs/taro'
 import Taro from '@tarojs/taro'
 import './index.scss'
 import"./number.scss"
 import PagePicker from '../../componments/TypePicker'
-import { useState ,useEffect ,useRef} from 'react'
+import { useState ,useEffect , Component} from 'react'
 import box from '../../assets/images/Box.jpg'
 
 
 export default function OrderForm() {
+  const sentid=4
+  // const sentid=Taro.getCurrentInstance().router?.params.id
+  const sentprice=Taro.getCurrentInstance().router?.params.price
 
+  const [nameValue,setNameValue]=useState('')
+  const [phoneValue,setPhoneValue]=useState('')
+  const [addressValue,setAddressValue]=useState('')
+  const [emailValue,setEmailValue]=useState('')
   const [send,setSend]=useState(false)
+
+  useEffect(() => {
+    if(Taro.getStorageSync('usermessage')===''){
+      //将用户的信息进行填写
+      Taro.request({
+        url:'https://wechatpayment.sast.fun/user/information',
+                method:'GET',
+                header:{
+                  'content-type':'application/json',
+                  'TOKEN':token
+                },
+                success:(res)=>{
+                  console.log(res.data.data)
+                  setNameValue(res.data.data.name)
+                  setPhoneValue(res.data.data.phone)
+                  setAddressValue(res.data.data.postAddress)
+                  setEmailValue(res.data.data.email)
+                },
+                fail:(err)=>{
+                  console.log(err)
+                },
+      })
+    }else{
+      setNameValue(Taro.getStorageSync('usermessage').name)
+      setPhoneValue(Taro.getStorageSync('usermessage').phone)
+      setEmailValue(Taro.getStorageSync('usermessage').email)
+      setAddressValue(Taro.getStorageSync('usermessage').postAddress)
+    }
+  }, [])
+
+  function handleSuccess(){
+    Taro.showToast({
+      title: '支付成功',
+      icon:'success',
+      duration: 2000
+    })
+  }
+  
+
+  function handleFail(){
+    Taro.showToast({
+          title: '支付失败',
+          icon: 'none',
+          duration: 2000,
+        })
+  }
+  
   const sendPrice=send?12:0
 
   const[Num,setNum]=useState(1);
@@ -23,7 +77,7 @@ export default function OrderForm() {
         }
     }
 
-    const oneprice=99
+    const oneprice=sentprice
     const productPrice=oneprice*Num
     const totalPrice=sendPrice+productPrice
 
@@ -40,21 +94,19 @@ export default function OrderForm() {
     // console.log('Page loaded.')
   })
 
-  const [nameValue,setNameValue]=useState('')
-  const [phoneValue,setPhoneValue]=useState('')
-  const [addressValue,setAddressValue]=useState('')
-  const [emailValue,setEmailValue]=useState('')
- 
-  
+
+  const typeValue=type.selectorChecked 
+  const sizeValue =size.selectorChecked
+  const countValue = Num
+  const needPostValue = send?1:0
+
+  // const token=getStorageSync('TOKEN')
+  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcGVuaWQiOiJvaHBqdzVCMjZQeGZzUGlVWlIzMkI1QVc3aTQwIiwic2Vzc2lvbl9rZXkiOiJGZWlwS2VNY0JWaEdwb3hLT3Q5bTlnPT0iLCJleHAiOjMxMTIwODQ1MDMzNzR9.s5vcJfEZvYNZ_huBGfmbQEsj_nBfY_mFoU1q9ueezJc"
+
+
 
   function btClick(){
-    
-    const typeValue=type.selector[type.selectorChecked]
-    const sizeValue = size.selector[size.selectorChecked]
-    const countValue = Num
-    const needPostValue = send?1:0
-    const id = getCurrentInstance().router.params.id
-
+    // let usermessage=Taro.getStorageSync('usermessage');
     const postdata={
       name:nameValue,
       phone:phoneValue,
@@ -64,8 +116,8 @@ export default function OrderForm() {
       count:countValue,
       needPost:needPostValue,
       postAddress:addressValue,
-      productId:id,
-    }
+      productId:sentid,
+    } 
 
 
     if(nameValue==''||phoneValue==''||emailValue==''||(needPostValue==1&&addressValue=='')){
@@ -82,95 +134,91 @@ export default function OrderForm() {
       })
     }
     else{
-      //创建表单
+      //创建表单并发起支付
       Taro.request({
-        url:'https://wechatpayment.sast.fun/user/order',
+        url:`https://wechatpayment.sast.fun/user/order`,
         data:postdata,
         method:'POST',
         header:{
           'content-type':'application/json',
-          // 'TOKEN': code
+          'TOKEN':token,
         },
         success:(res)=>{
           console.log(res.data)
+          const errReason=res.data.errMsg
+          if(res.data.success==false){
+            Taro.showModal({
+              title: '提示',
+              content: errReason,
+            })
+          }else{
+          const order_id=res.data.data.order_id
+          Taro.request({
+            url:`https://wechatpayment.sast.fun/user/pay/${order_id}`,
+            method:'POST',
+            header:{
+              'content-type':'application/json',
+              'TOKEN': token
+            },
+            success:(res)=>{
+              console.log(res.data)
+              Taro.requestPayment({
+                timeStamp:res.data.data.timeStamp,
+                nonceStr:res.data.data.nonceStr,
+                package:res.data.data.package,
+                signType:'MD5',
+                paySign:res.data.data.paySign,
+                success:()=>{
+                  handleSuccess()
+                },
+                fail:()=>{
+                  handleFail()
+                }
+              })
+            },
+            fail:(err)=>{
+              console.log(err)
+            },
+          })
+          }
         },
         fail:(err)=>{
           console.log(err)
         },
       })
 
-      //保存一份信息
+      //数值改变 发起请求
+      const usermessage=Taro.getStorageSync('usermessage')
+      if((nameValue!=usermessage.name) || (phoneValue!=usermessage.phone) || (emailValue!=usermessage.email) || (addressValue!=usermessage.postAddress)){
+        //保存一份信息
+        Taro.setStorageSync('usermessage',{
+          name:nameValue,
+          phone:phoneValue,
+          email:emailValue,
+          postAddress:addressValue
+        })
+
       Taro.request({
         url:'https://wechatpayment.sast.fun/user/information',
         data:{
           name:nameValue,
           phone:phoneValue,
           postAddress:addressValue,
+          email:emailValue,
         },
         method:'POST',
         header:{
           'content-type':'application/json',
-          // 'TOKEN': code
+          'TOKEN': token
         },
         success:(res)=>{
-          console.log(res.data)
+          console.log(res.data)         
         },
         fail:(err)=>{
           console.log(err)
         },
       })
-
-      //将用户的信息进行填写
-      Taro.request({
-        url:'https://wechatpayment.sast.fun/user/information',
-                method:'GET',
-                header:{
-                  'content-type':'application/json',
-                  // 'TOKEN': code
-                },
-                success:(res)=>{
-                  console.log(res.data)
-                  setNameValue(res.data.name)
-                  setPhoneValue(res.data.phone)
-                  setAddressValue(res.data.postAddress)
-                },
-                fail:(err)=>{
-                  console.log(err)
-                },
-      })
-
-      
-      //发起支付
-      Taro.request({
-        url:'https://wechatpayment.sast.fun/user/pay',
-        data:{
-          id:1
-        },
-        method:'POST',
-        header:{
-          'content-type':'application/json'
-          // 'TOKEN': code
-        },
-        success:(res)=>{
-          console.log(res.data)
-          Taro.requestPayment({
-            timeStamp:res.data.timeStamp,
-            nonceStr:res.data.nonceStr,
-            package:res.data.package,
-            signType:res.data.signType,
-            paySign:res.data.paySign,
-            success:(res)=>{
-              console.log(res)
-            },
-            fail:(err)=>{
-              console.log(err)
-            }
-          })
-        },
-        fail:(err)=>{
-          console.log(err)
-        },
-      })
+      }
   }
 }
   
@@ -196,7 +244,7 @@ export default function OrderForm() {
 
           <View className='form-item'>
             <Text>用户邮箱</Text>
-            <Input onInput={(e)=>{setEmailValue(e.detail.value)}} type='text' placeholder='用户邮箱'></Input>
+            <Input value={emailValue} onInput={(e)=>{setEmailValue(e.detail.value)}} type='text' placeholder='用户邮箱'></Input>
           </View>
 
           
@@ -252,3 +300,5 @@ export default function OrderForm() {
 
   )
 }
+
+

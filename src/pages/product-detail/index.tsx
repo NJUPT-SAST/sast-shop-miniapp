@@ -1,5 +1,5 @@
 import { View, Swiper, SwiperItem, Image, Button, ScrollView, Text } from '@tarojs/components'
-import { useLoad, getCurrentInstance } from '@tarojs/taro'
+import { useLoad, getCurrentInstance, getStorageSync } from '@tarojs/taro'
 import img1 from '../../assets/images/img1.jpg'
 import img2 from '../../assets/images/img2.jpg'
 import img3 from '../../assets/images/img3.jpg'
@@ -9,6 +9,7 @@ import './index.scss'
 import Taro from '@tarojs/taro'
 
 export default function ProductDetail() {
+  const typelist=['深蓝色','卡其色']
   const imgState =[
     img1,
     img2,
@@ -16,52 +17,25 @@ export default function ProductDetail() {
     img4,
   ]
 
-  var code=''
+  // const prodid = Taro.getCurrentInstance().router?.params.id
+  const id=4
+  // const token=getStorageSync('TOKEN')
+  const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcGVuaWQiOiJvaHBqdzVCMjZQeGZzUGlVWlIzMkI1QVc3aTQwIiwic2Vzc2lvbl9rZXkiOiJGZWlwS2VNY0JWaEdwb3hLT3Q5bTlnPT0iLCJleHAiOjMxMTIwODQ1MDMzNzR9.s5vcJfEZvYNZ_huBGfmbQEsj_nBfY_mFoU1q9ueezJc"
   const [title,setTitle]=useState( '南京邮电大学校科协 SAST 2023 纪念定制短袖')
-  const [price,setPrice]=useState('99')
+  const [price,setPrice]=useState(99)
   const [description,setDescription]=useState('商品的详情介绍')
-  const [type,setType]=useState('卡其色 深蓝色')
+  const [type,setType]=useState(0)
   const [image,setImage]=useState<Array<any>>(imgState)
-
-
-  // function getDate(id:any){
-  //   Taro.request({
-  //     url:`https://wechatpayment.sast.fun/user/productInfo/${id}`,
-  //     method: 'GET',
-  //     header:{
-  //       'content-type': 'application/json',
-  //       'TOKEN': code
-  //     },
-  //     success: (res) => {
-  //           console.log(res.data);
-  //           setPrice(res.data.price)
-  //           setDescription(res.data.description)
-  //           setTitle(res.data.title)
-  //           setType(res.data.type)
-  //           setImage(res.data.data.image)
-  //         },
-  //     fail:(error)=>{
-  //       console.log(error); 
-  //     }
-  //   })
-  // }
-  // useEffect(() => {
-  //     getDate(id)  
-  //   }, [])
-  
   
 
   useLoad(() => {
-    // console.log('Page loaded.')
+    console.log('Page loaded.')
     Taro.login({
-      success: (res) => {
-        code = res.code
-        console.log(code)
-      },
-      fail: (error) => {
-        console.log(error)
-      }
-    })
+      success:(res) => {
+              console.log(res.code)
+            },
+            
+  })
   })
 
   function getDate(id:any){
@@ -70,15 +44,15 @@ export default function ProductDetail() {
       method: 'GET',
       header:{
         'content-type': 'application/json',
-        'TOKEN': code
+        'TOKEN': token
       },
       success: (res) => {
-            console.log(res.data);
-            setPrice(res.data.price)
-            setDescription(res.data.description)
-            setTitle(res.data.title)
-            setType(res.data.type)
-            setImage(res.data.data.image)
+            console.log(res.data.data);
+            setPrice(res.data.data.price)
+            setDescription(res.data.data.description)
+            setTitle(res.data.data.title)
+            setType(res.data.data.type)
+            setImage(JSON.parse(res.data.data.image))
           },
       fail:(error)=>{
         console.log(error); 
@@ -86,15 +60,13 @@ export default function ProductDetail() {
     })
   }
   useEffect(() => {
-      getDate(1)  
+      getDate(id)  
     }, [])
+  
 
-  const id = getCurrentInstance().router.params.id
-  console.log(id)
-
-  const gotoOrder = () => {
+  function gotoOrder(){
     Taro.navigateTo({
-      url: `/pages/order-form/index?id=${id}`                                                                                                                                                                                                               
+      url: `/pages/order-form/index?id=${id}&price=${price}`                                                                                                                                                                                                               
     })
   }
 
@@ -130,7 +102,7 @@ export default function ProductDetail() {
         <Button onClick={gotoOrder} className='good-button'>立即购买</Button>
 
         <View className='type'>
-          <View className='type-view'>颜色<Text className='type-item'>{type}</Text></View>
+          <View className='type-view'>颜色<Text className='type-item'>{typelist[type]}</Text></View>
         </View>
 
         <View className='datail'>商品详情</View>

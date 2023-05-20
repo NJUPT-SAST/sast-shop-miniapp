@@ -1,4 +1,4 @@
-import { View ,Text, Button, Input} from "@tarojs/components";
+import { View ,Text, Button} from "@tarojs/components";
 import { useState } from "react";
 import"./number.scss"
 
